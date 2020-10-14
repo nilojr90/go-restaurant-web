@@ -10,6 +10,7 @@ import ModalEditFood from '../../components/ModalEditFood';
 
 import { FoodsContainer } from './styles';
 
+
 interface IFoodPlate {
   id: number;
   name: string;
@@ -35,13 +36,28 @@ const Dashboard: React.FC = () => {
   }, []);
 
   async function handleAddFood(
-    food: Omit<IFoodPlate, 'id' | 'available'>,
+    food: Omit<IFoodPlate, 'id'>,
   ): Promise<void> {
     try {
-      // TODO ADD A NEW FOOD PLATE TO THE API
+      //ADD A NEW FOOD PLATE TO THE API
+      console.log(`POST: /foods`);
+
+      let newFood = null;
+      await api.post(`/foods`, food)
+        .then(response => {
+          console.log(response);
+          newFood = response.data;
+
+          setFoods([newFood, ...foods]);
+        });
+
+
+
+
     } catch (err) {
       console.log(err);
     }
+    toggleModal();
   }
 
   async function handleUpdateFood(

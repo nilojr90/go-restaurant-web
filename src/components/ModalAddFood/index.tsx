@@ -5,6 +5,7 @@ import { FormHandles } from '@unform/core';
 import { Form } from './styles';
 import Modal from '../Modal';
 import Input from '../Input';
+import Food from '../Food';
 
 interface IFoodPlate {
   id: number;
@@ -20,12 +21,13 @@ interface ICreateFoodData {
   image: string;
   price: string;
   description: string;
+  available: boolean;
 }
 
 interface IModalProps {
   isOpen: boolean;
   setIsOpen: () => void;
-  handleAddFood: (food: Omit<IFoodPlate, 'id' | 'available'>) => void;
+  handleAddFood: (food: Omit<IFoodPlate, 'id'>) => void;
 }
 
 const ModalAddFood: React.FC<IModalProps> = ({
@@ -37,7 +39,10 @@ const ModalAddFood: React.FC<IModalProps> = ({
 
   const handleSubmit = useCallback(
     async (data: ICreateFoodData) => {
-      // TODO ADD A NEW FOOD AND CLOSE THE MODAL
+      handleAddFood(data);
+
+      isOpen = false;
+      setIsOpen();
     },
     [handleAddFood, setIsOpen],
   );
@@ -52,6 +57,7 @@ const ModalAddFood: React.FC<IModalProps> = ({
         <Input name="price" placeholder="Ex: 19.90" />
 
         <Input name="description" placeholder="Descrição" />
+        <Input name="available" type="checkbox" checked={false} />
         <button type="submit" data-testid="add-food-button">
           <p className="text">Adicionar Prato</p>
           <div className="icon">
