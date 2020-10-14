@@ -120,6 +120,24 @@ const Dashboard: React.FC = () => {
     toggleEditModal();
   }
 
+  function toggleAvaliability(id: number): void {
+    const updateIndex = foods.findIndex((food) => {
+      return food.id === id;
+    });
+
+    let newFood = foods[updateIndex];
+
+    newFood.available = !newFood.available;
+
+    api.patch(`/foods/${id}`, newFood)
+      .then(response => {
+        console.log(response.status);
+      })
+      .catch(response => {
+        console.error(response.status);
+      });
+  }
+
   return (
     <>
       <Header openModal={toggleModal} />
@@ -143,6 +161,7 @@ const Dashboard: React.FC = () => {
               food={food}
               handleDelete={handleDeleteFood}
               handleEditFood={handleEditFood}
+              toggleAvaliability={toggleAvaliability}
             />
           ))}
       </FoodsContainer>

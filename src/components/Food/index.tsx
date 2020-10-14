@@ -17,16 +17,19 @@ interface IProps {
   food: IFoodPlate;
   handleDelete: (id: number) => {};
   handleEditFood: (food: IFoodPlate) => void;
+  toggleAvaliability: (id: number) => void;
 }
 
 const Food: React.FC<IProps> = ({
   food,
   handleDelete,
   handleEditFood,
+  toggleAvaliability,
 }: IProps) => {
   const [isAvailable, setIsAvailable] = useState(food.available);
 
   async function toggleAvailable(): Promise<void> {
+    toggleAvaliability(food.id);
     setIsAvailable(!isAvailable);
   }
 
